@@ -1,17 +1,5 @@
 var app = {
-
-    findByName: function() {
-        console.log('findByName');
-        this.store.findByName($('.search-key').val(), function(employees) {
-            var l = employees.length;
-            var e;
-            $('.employee-list').empty();
-            for (var i=0; i<l; i++) {
-                e = employees[i];
-                $('.employee-list').append('<li><a href="#employees/' + e.id + '">' + e.firstName + ' ' + e.lastName + '</a></li>');
-            }
-        });
-    },
+    /* part 3: */
     showAlert: function (message, title) {
         if (navigator.notification) {
             navigator.notification.alert(message, null, title, 'OK');
@@ -20,15 +8,20 @@ var app = {
         }
     },
     initialize: function() {
-        // this.store = new MemoryStore();
+        //this.store = new MemoryStore();
         // this.store = new LocalStorageStore();
         var self = this;
         
+        this.homeTpl = Handlebars.compile($("#home-tpl").html());
+        this.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
+        
         // this.store = new WebSqlStore();
-        this.store = new WebSqlStore(function(){
-            self.showAlert('Store initialized', 'My title');
+        //this.store = new WebSqlStore(function(){
+        this.store = new MemoryStore(function(){
+            // self.showAlert('Store initialized', 'My title');
+            // self.renderHomeView();
+            $('body').html(new HomeView(self.store).render().el);
         });
-        $('.search-key').on('keyup', $.proxy(this.findByName, this));
     }
 
 };

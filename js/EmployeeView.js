@@ -24,18 +24,26 @@ var EmployeeView = function(employee) {
     };
     this.addToContacts = function(event) {
         event.preventDefault();
-        console.log('addToContacts');
+        alert('addToContacts');
         if (!navigator.contacts) {
             app.showAlert("Contacts API not supported", "Error");
             return;
         }
         var contact = navigator.contacts.create();
-        contact.name = {givenName: employee.firstName, familyName: employee.lastName};
+        alert('addToContacts 2');
+        contact.name = {
+            givenName: employee.firstName, 
+            familyName: employee.lastName,
+            displayName: 'Test User',
+            nickname: 'unSoprannome'
+        };
         var phoneNumbers = [];
         phoneNumbers[0] = new ContactField('work', employee.officePhone, false);
         phoneNumbers[1] = new ContactField('mobile', employee.cellPhone, true); // preferred number
+        alert('addToContacts 3');
         contact.phoneNumbers = phoneNumbers;
         contact.save();
+        alert('addToContacts 4');
         return false;
     };
     this.changePicture = function(event) {
